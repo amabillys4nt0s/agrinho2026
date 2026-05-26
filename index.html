@@ -1,240 +1,44 @@
-/* 🌸 AGRINHO ROSA PRO - VISUAL AVANÇADO 🌸 */
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Agro Game Sustentável</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-:root {
-  --fundo: #fff0f5;
-  --fundo-gradiente: linear-gradient(180deg, #fff5fa, #ffe4f1);
-  --card: rgba(255, 255, 255, 0.7);
-  --texto: #4a1f2d;
-  --texto-fraco: #7a4b5a;
-  --primaria: #ff4da6;
-  --primaria-escura: #cc2d7a;
-  --secundaria: #ffd6eb;
-  --borda: rgba(255, 77, 166, 0.25);
-  --sombra: 0 15px 40px rgba(255, 77, 166, 0.25);
-  --raio: 20px;
-}
+<body>
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<header>
+  <h1>🌸 Agro Sustentável Game</h1>
+  <p>Equilibre produção e meio ambiente</p>
+</header>
 
-/* 🌈 FUNDO */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--fundo-gradiente);
-  color: var(--texto);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+<main>
 
-/* 🌙 MODO ESCURO */
-body.dark {
-  --fundo-gradiente: linear-gradient(180deg, #1a0f14, #2a1820);
-  --card: rgba(40, 20, 30, 0.85);
-  --texto: #ffeaf4;
-  --texto-fraco: #e0b3c6;
-  --primaria: #ff66b3;
-  --secundaria: #3a1f2d;
-}
+<section class="status">
+  <div>🌱 Sustentabilidade: <span id="eco">50</span></div>
+  <div>💰 Produção: <span id="prod">50</span></div>
+  <div>⭐ Nível: <span id="nivel">1</span></div>
+</section>
 
-/* HEADER */
-.topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  backdrop-filter: blur(10px);
-}
+<section class="cenario">
+  <h2 id="titulo">Escolha uma ação</h2>
+  <p id="descricao">Você começou sua fazenda.</p>
+</section>
 
-.logo {
-  background: linear-gradient(135deg, var(--primaria), #ff99cc);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 14px;
-  font-weight: bold;
-  box-shadow: var(--sombra);
-}
+<section class="opcoes">
+  <button class="opcao" onclick="escolher(0)"></button>
+  <button class="opcao" onclick="escolher(1)"></button>
+  <button class="opcao" onclick="escolher(2)"></button>
+</section>
 
-/* NAV */
-.navegacao a {
-  margin: 0 8px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  transition: 0.3s;
-}
+<section class="log">
+  <h3>📜 Histórico</h3>
+  <ul id="historico"></ul>
+</section>
 
-.navegacao a:hover {
-  background: var(--secundaria);
-}
+</main>
 
-/* BOTÕES */
-.botao {
-  background: linear-gradient(135deg, var(--primaria), #ff80bf);
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: var(--sombra);
-}
-
-.botao:hover {
-  transform: translateY(-3px) scale(1.05);
-}
-
-.botao-secundario {
-  background: var(--secundaria);
-  color: var(--texto);
-}
-
-/* HERO */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 2rem;
-  gap: 25px;
-}
-
-.hero-texto {
-  background: var(--card);
-  padding: 25px;
-  border-radius: var(--raio);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--sombra);
-  animation: fadeIn 1s ease;
-}
-
-.hero h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  color: var(--texto-fraco);
-  line-height: 1.6;
-}
-
-/* ✨ IMAGEM COM ANIMAÇÃO */
-.imagem-hero {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 25px;
-  box-shadow: var(--sombra);
-  transition: 0.4s;
-  animation: float 3s ease-in-out infinite;
-}
-
-.imagem-hero:hover {
-  transform: scale(1.1) rotate(-3deg);
-}
-
-/* CARDS */
-.cartao-info,
-.card-resumo,
-.painel-interativo,
-.simulador,
-.cartao-dica {
-  background: var(--card);
-  border-radius: var(--raio);
-  padding: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: var(--sombra);
-  transition: 0.3s;
-}
-
-.cartao-info:hover {
-  transform: translateY(-5px);
-}
-
-/* GRID */
-.grade-info,
-.grade-acoes {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-/* AÇÕES */
-.acao {
-  border: 1px solid var(--borda);
-  border-radius: 15px;
-  padding: 12px;
-  background: white;
-  cursor: pointer;
-  transition: 0.3s;
-  font-weight: bold;
-}
-
-.acao:hover {
-  background: var(--secundaria);
-  transform: scale(1.05);
-}
-
-/* RESULTADO */
-.resultado {
-  margin-top: 10px;
-  font-size: 1.1rem;
-}
-
-/* SIMULADOR */
-.barra {
-  height: 14px;
-  background: #ffd6eb;
-  border-radius: 999px;
-  margin: 10px 0;
-}
-
-.nivel {
-  height: 100%;
-  background: linear-gradient(90deg, #ff80bf, var(--primaria));
-  border-radius: 999px;
-  transition: width 0.3s;
-}
-
-/* DICA */
-.cartao-dica {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* FOOTER */
-.rodape {
-  text-align: center;
-  padding: 20px;
-  border-top: 1px solid var(--borda);
-  margin-top: 30px;
-}
-
-/* ✨ ANIMAÇÕES */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-/* 📱 RESPONSIVO */
-@media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
-
-  .grade-info,
-  .grade-acoes {
-    grid-template-columns: 1fr;
-  }
-}
+<script src="script.js"></script>
+</body>
+</html>
