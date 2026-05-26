@@ -1,152 +1,100 @@
-let player = document.getElementById("player");
-let game = document.getElementById("game");
-
-let scoreEl = document.getElementById("score");
-let lifeEl = document.getElementById("life");
-let faseEl = document.getElementById("fase");
-
-let jumpSound = new Audio("assets/jump.mp3");
-let coinSound = new Audio("assets/coin.mp3");
-
-let playerY = 0;
-let velocity = 0;
-let gravity = 0.8;
-let jumping = false;
-
-let score = 0;
-let life = 3;
-let fase = 1;
-
-let running = false;
-
-// MENU
-function startGame() {
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("gameContainer").classList.remove("hidden");
-
-    running = true;
-    loop();
-    spawnLoop();
+body {
+    margin: 0;
+    font-family: Arial;
+    text-align: center;
+    background: #e0f7fa;
 }
 
-function showTutorial() {
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("tutorial").classList.remove("hidden");
+/* TELAS */
+.hidden { display: none; }
+
+#menu, #tutorial, #gameOverScreen {
+    margin-top: 100px;
 }
 
-function backMenu() {
-    document.getElementById("tutorial").classList.add("hidden");
-    document.getElementById("menu").classList.remove("hidden");
+/* JOGO */
+#game {
+    width: 90%;
+    max-width: 900px;
+    height: 350px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: linear-gradient(#87ceeb, #228B22);
+    transition: background 1s;
 }
 
-// PULO
-document.addEventListener("keydown", (e) => {
-    if (e.code === "Space" && !jumping && running) {
-        velocity = -15;
-        jumping = true;
-        jumpSound.play();
-    }
-});
-
-// LOOP
-function loop() {
-    if (!running) return;
-
-    velocity += gravity;
-    playerY -= velocity;
-
-    if (playerY <= 0) {
-        playerY = 0;
-        jumping = false;
-    }
-
-    player.style.bottom = playerY + "px";
-
-    requestAnimationFrame(loop);
+/* DIA/NOITE */
+.noite {
+    background: linear-gradient(#0f2027, #203a43);
 }
 
-// SPAWN
-function spawnLoop() {
-    if (!running) return;
-
-    let type = Math.random() > 0.5 ? "item" : "enemy";
-    spawn(type);
-
-    setTimeout(spawnLoop, 1200);
+/* CHÃO */
+#game::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 50px;
+    background: #5a3e1b;
+    animation: groundMove 2s linear infinite;
 }
 
-function spawn(type) {
-    let el = document.createElement("div");
-    el.classList.add(type);
-    el.style.left = "800px";
+@keyframes groundMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
 
-    game.appendChild(el);
+/* PLAYER */
+#player {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 50px;
+    left: 100px;
+    background: green;
+    border-radius: 8px;
+    transition: transform 0.1s;
+}
 
-    let x = 800;
+/* ANIMAÇÃO */
+.running {
+    transform: scale(1.1);
+}
 
-    function move() {
-        if (!running) return;
+/* OBJETOS */
+.item, .enemy {
+    position: absolute;
+    bottom: 50px;
+}
 
-        x -= 6;
-        el.style.left = x + "px";
+.item {
+    width: 35px;
+    height: 35px;
+    background: yellow;
+}
 
-        check(el, type);
+.enemy {
+    width: 40px;
+    height: 40px;
+    background: red;
+}
 
-        if (x > -50) requestAnimationFrame(move);
-        else el.remove();
+/* HUD */
+#hud {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    #game {
+        height: 250px;
     }
 
-    move();
-}
-
-// COLISÃO
-function check(el, type) {
-    let a = player.getBoundingClientRect();
-    let b = el.getBoundingClientRect();
-
-    if (
-        a.left < b.right &&
-        a.right > b.left &&
-        a.top < b.bottom &&
-        a.bottom > b.top
-    ) {
-        el.remove();
-
-        if (type === "item") {
-            score += 10;
-            coinSound.play();
-            scoreEl.innerText = score;
-
-            if (score >= 50) nextFase();
-
-        } else {
-            life--;
-            lifeEl.innerText = life;
-
-            if (life <= 0) gameOver();
-        }
+    #player {
+        width: 40px;
+        height: 40px;
     }
-}
-
-// FASES
-function nextFase() {
-    fase++;
-    score = 0;
-
-    if (fase === 2) {
-        faseEl.innerText = "Cidade";
-        game.classList.add("noite");
-    }
-
-    if (fase === 3) {
-        faseEl.innerText = "Floresta";
-        game.classList.remove("noite");
-    }
-}
-
-// GAME OVER
-function gameOver() {
-    running = false;
-    alert("🌍 Fim de jogo! Preserve o meio ambiente!");
-    location.reload();
 }
