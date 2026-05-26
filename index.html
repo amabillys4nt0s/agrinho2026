@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agro Runner</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revista Sustentável</title>
 
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
 
 <body>
 
-    <!-- MENU -->
-    <div id="menu">
-        <h1>🌱 Agro Runner</h1>
-        <p>Proteja o meio ambiente!</p>
+<h1>🌱 Revista Sustentável</h1>
 
-        <button id="playButton">
-            Jogar
-        </button>
+<div id="quiz">
+
+    <h2 id="question">Pergunta aqui</h2>
+
+    <div id="answers">
+        <button onclick="answer(0)"></button>
+        <button onclick="answer(1)"></button>
+        <button onclick="answer(2)"></button>
     </div>
 
-    <!-- HUD -->
-    <div id="hud" class="hidden">
-        ⭐ Pontos:
-        <span id="score">0</span>
-    </div>
+</div>
 
-    <!-- GAME -->
-    <div id="game" class="hidden">
-        <div id="player"></div>
-    </div>
+<div id="game">
+
+    <div id="rainbow">🌈</div>
+
+    <div id="cat">🐱</div>
+
+</div>
+
+<p id="score">Acertos: 0</p>
 
 </body>
-
 </html>
