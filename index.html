@@ -12,43 +12,18 @@
 <!-- MENU -->
 <div id="menu">
     <h1>🌱 Agro Runner</h1>
-    <p>Salve o meio ambiente!</p>
-
     <button onclick="startGame()">Jogar</button>
-    <button onclick="showTutorial()">Tutorial</button>
-</div>
-
-<!-- TUTORIAL -->
-<div id="tutorial" class="hidden">
-    <h2>Como Jogar</h2>
-    <p>Espaço = pular</p>
-    <p>🌱 coleta = pontos</p>
-    <p>☠️ inimigo = perde vida</p>
-    <button onclick="backMenu()">Voltar</button>
 </div>
 
 <!-- JOGO -->
 <div id="gameContainer" class="hidden">
-
-    <div id="hud">
-        ❤️ Vida: <span id="life">3</span>
-        ⭐ Pontos: <span id="score">0</span>
-        🌍 Fase: <span id="fase">Fazenda</span>
-    </div>
+    <p>Pontos: <span id="score">0</span></p>
 
     <div id="game">
         <div id="player"></div>
     </div>
-
 </div>
 
-<!-- GAME OVER -->
-<div id="gameOverScreen" class="hidden">
-    <h2>Game Over</h2>
-    <p id="finalScore"></p>
-    <button onclick="restartGame()">Reiniciar</button>
-</div>
-
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>
