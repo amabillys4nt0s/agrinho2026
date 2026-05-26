@@ -1,154 +1,52 @@
-/* 🌸 TEMA ROSA AGRINHO 🌸 */
-
-:root {
-  --fundo: #fff0f5;
-  --fundo-card: rgba(255, 240, 245, 0.85);
-  --texto: #4a1f2d;
-  --texto-fraco: #7a4b5a;
-  --primaria: #ff4da6;
-  --primaria-escura: #cc2d7a;
-  --secundaria: #ffd6eb;
-  --borda: rgba(255, 77, 166, 0.2);
-  --sombra: 0 15px 35px rgba(255, 77, 166, 0.25);
-  --raio: 20px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 body {
+  font-family: Arial;
+  background: linear-gradient(#fff0f5, #ffe4f1);
+  text-align: center;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, #fff5fa, var(--fundo));
-  color: var(--texto);
 }
 
-/* 🌙 MODO ESCURO */
-body.dark {
-  --fundo: #1a0f14;
-  --fundo-card: rgba(40, 20, 30, 0.9);
-  --texto: #ffeaf4;
-  --texto-fraco: #e0b3c6;
-  --primaria: #ff66b3;
-  --secundaria: #3a1f2d;
-}
-
-/* HEADER */
-.topo {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-}
-
-.logo {
-  background: var(--primaria);
+header {
+  background: #ff4da6;
   color: white;
+  padding: 15px;
+}
+
+.status {
+  display: flex;
+  justify-content: space-around;
   padding: 10px;
-  border-radius: 12px;
   font-weight: bold;
 }
 
-/* BOTÕES */
-.botao {
-  background: var(--primaria);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.botao:hover {
-  background: var(--primaria-escura);
-  transform: scale(1.05);
-}
-
-.botao-secundario {
-  background: var(--secundaria);
-  color: var(--texto);
-}
-
-/* HERO */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 2rem;
-  gap: 20px;
-}
-
-.hero-texto {
-  background: var(--fundo-card);
-  padding: 20px;
-  border-radius: var(--raio);
-  box-shadow: var(--sombra);
-}
-
-/* IMAGEM */
-.imagem-hero {
-  width: 100%;
-  max-width: 280px;
-  border-radius: 20px;
-  box-shadow: var(--sombra);
-  transition: 0.3s;
-}
-
-.imagem-hero:hover {
-  transform: scale(1.05) rotate(-2deg);
-}
-
-/* CARDS */
-.cartao-info,
-.card-resumo,
-.painel-interativo,
-.simulador,
-.cartao-dica {
-  background: var(--fundo-card);
-  padding: 15px;
-  border-radius: var(--raio);
-  box-shadow: var(--sombra);
-}
-
-/* AÇÕES */
-.acao {
+.cenario {
   background: white;
-  border: 1px solid var(--borda);
-  padding: 12px;
+  margin: 20px;
+  padding: 20px;
   border-radius: 15px;
+}
+
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px;
+}
+
+.opcao {
+  padding: 15px;
+  border: none;
+  background: #ffd6eb;
+  border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.acao:hover {
-  background: var(--secundaria);
-  transform: scale(1.03);
+.opcao:hover {
+  background: #ff4da6;
+  color: white;
 }
 
-/* SIMULADOR */
-.barra {
-  height: 12px;
-  background: #ffd6eb;
-  border-radius: 999px;
-}
-
-.nivel {
-  height: 100%;
-  background: var(--primaria);
-  border-radius: 999px;
-}
-
-/* FOOTER */
-.rodape {
-  text-align: center;
-  padding: 1rem;
-  margin-top: 2rem;
-  border-top: 1px solid var(--borda);
-}
-
-/* RESPONSIVO */
-@media (max-width: 768px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
+.log {
+  margin: 20px;
+  text-align: left;
 }
