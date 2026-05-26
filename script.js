@@ -1,108 +1,101 @@
-// Projeto Agrinho: interações simples com DOM, variáveis e eventos.
+let eco = 50;
+let prod = 50;
+let nivel = 1;
 
-const botaoTema = document.getElementById("botaoTema");
-const pontosElement = document.getElementById("pontos");
-const pontosHeroElement = document.getElementById("pontosHero");
-const mensagemElement = document.getElementById("mensagem");
-const botoesAcao = document.querySelectorAll(".acao");
-const reiniciarBotao = document.getElementById("reiniciar");
-const aguaInput = document.getElementById("agua");
-const valorAgua = document.getElementById("valorAgua");
-const nivelAgua = document.getElementById("nivelAgua");
-const textoAgua = document.getElementById("textoAgua");
-const dicaTexto = document.getElementById("dicaTexto");
-const novaDicaBotao = document.getElementById("novaDica");
+const ecoEl = document.getElementById("eco");
+const prodEl = document.getElementById("prod");
+const nivelEl = document.getElementById("nivel");
+const titulo = document.getElementById("titulo");
+const descricao = document.getElementById("descricao");
+const botoes = document.querySelectorAll(".opcao");
+const historico = document.getElementById("historico");
 
-const dicas = [
-  "Faça o manejo da água com planejamento e observe o solo antes de irrigar.",
-  "Use cobertura vegetal para manter a umidade e proteger a terra.",
-  "Aposte na rotação de culturas para fortalecer o solo ao longo do tempo.",
-  "Reaproveite resíduos orgânicos com compostagem e reduza o desperdício.",
-  "Escolha equipamentos eficientes para gastar menos energia e produzir melhor."
-];
-
-const textosAgua = [
+const cenarios = [
   {
-    limite: 25,
-    texto: "Uso muito baixo. Ótimo para economizar água, mas talvez a lavoura precise de mais atenção em dias secos."
+    titulo: "Uso de água",
+    descricao: "Sua plantação precisa de irrigação.",
+    opcoes: [
+      { texto: "Usar irrigação inteligente", eco: +15, prod: +10 },
+      { texto: "Usar água sem controle", eco: -20, prod: +15 },
+      { texto: "Não irrigar", eco: +5, prod: -20 }
+    ]
   },
   {
-    limite: 60,
-    texto: "Nível equilibrado. A produção segue bem, com uso consciente de recursos."
+    titulo: "Uso de agrotóxicos",
+    descricao: "Pragas estão atacando sua plantação.",
+    opcoes: [
+      { texto: "Controle biológico", eco: +15, prod: +5 },
+      { texto: "Muito agrotóxico", eco: -25, prod: +20 },
+      { texto: "Nada", eco: +5, prod: -15 }
+    ]
   },
   {
-    limite: 100,
-    texto: "Uso muito alto. Vale rever a irrigação para evitar desperdício e impacto ambiental."
+    titulo: "Solo",
+    descricao: "Seu solo está desgastado.",
+    opcoes: [
+      { texto: "Rotação de culturas", eco: +20, prod: +10 },
+      { texto: "Ignorar", eco: -15, prod: +5 },
+      { texto: "Descansar solo", eco: +10, prod: -10 }
+    ]
   }
 ];
 
-let pontos = 0;
-let indiceDica = 0;
+let atual = 0;
 
-function atualizarPlacar() {
-  pontosElement.textContent = pontos;
-  pontosHeroElement.textContent = pontos;
+function atualizarTela() {
+  ecoEl.textContent = eco;
+  prodEl.textContent = prod;
+  nivelEl.textContent = nivel;
+
+  const c = cenarios[atual];
+  titulo.textContent = c.titulo;
+  descricao.textContent = c.descricao;
+
+  c.opcoes.forEach((op, i) => {
+    botoes[i].textContent = op.texto;
+  });
 }
 
-function atualizarMensagem(mensagem) {
-  mensagemElement.textContent = mensagem;
+function escolher(i) {
+  const escolha = cenarios[atual].opcoes[i];
+
+  eco += escolha.eco;
+  prod += escolha.prod;
+
+  adicionarHistorico(escolha.texto);
+
+  atual = (atual + 1) % cenarios.length;
+
+  if (eco > 80 && prod > 80) {
+    nivel++;
+  }
+
+  verificarFim();
+  atualizarTela();
 }
 
-function classificarPontos(valor) {
-  if (valor >= 40) return "Excelente! Seu agro está forte e sustentável.";
-  if (valor >= 20) return "Muito bom! Você já faz escolhas bem conscientes.";
-  if (valor > 0) return "Você começou bem. Continue somando boas práticas!";
-  return "Comece escolhendo uma ação.";
+function adicionarHistorico(texto) {
+  const li = document.createElement("li");
+  li.textContent = texto;
+  historico.appendChild(li);
 }
 
-function aplicarAcao(evento) {
-  const botao = evento.currentTarget;
-  const pontosGanhos = Number(botao.dataset.pontos);
-  const mensagem = botao.dataset.mensagem;
-
-  pontos += pontosGanhos;
-  atualizarPlacar();
-  atualizarMensagem(`${mensagem} ${classificarPontos(pontos)}`);
-}
-
-function reiniciarPlacar() {
-  pontos = 0;
-  atualizarPlacar();
-  atualizarMensagem("Placar reiniciado. Escolha uma ação sustentável.");
-}
-
-function alternarTema() {
-  const modoEscuroAtivo = document.body.classList.toggle("dark");
-  botaoTema.textContent = modoEscuroAtivo ? "Modo claro" : "Modo escuro";
-  botaoTema.setAttribute("aria-pressed", String(modoEscuroAtivo));
-}
-
-function atualizarAgua() {
-  const valor = Number(aguaInput.value);
-  valorAgua.textContent = `${valor}%`;
-  nivelAgua.style.width = `${valor}%`;
-
-  const faixaEncontrada = textosAgua.find((faixa) => valor <= faixa.limite);
-
-  if (faixaEncontrada) {
-    textoAgua.textContent = faixaEncontrada.texto;
+function verificarFim() {
+  if (eco <= 0) {
+    alert("💀 Você destruiu o meio ambiente!");
+    reiniciar();
+  }
+  if (prod <= 0) {
+    alert("💸 Sua fazenda faliu!");
+    reiniciar();
   }
 }
 
-function mostrarProximaDica() {
-  indiceDica = (indiceDica + 1) % dicas.length;
-  dicaTexto.textContent = dicas[indiceDica];
+function reiniciar() {
+  eco = 50;
+  prod = 50;
+  nivel = 1;
+  historico.innerHTML = "";
 }
 
-botoesAcao.forEach((botao) => {
-  botao.addEventListener("click", aplicarAcao);
-});
-
-botaoTema.addEventListener("click", alternarTema);
-reiniciarBotao.addEventListener("click", reiniciarPlacar);
-aguaInput.addEventListener("input", atualizarAgua);
-novaDicaBotao.addEventListener("click", mostrarProximaDica);
-
-atualizarPlacar();
-atualizarAgua();
-atualizarMensagem("Comece escolhendo uma ação.");
+atualizarTela();
