@@ -1,182 +1,240 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Projeto Agrinho sobre equilíbrio entre produção e meio ambiente." />
-  <title>Agrinho | Agro forte, futuro sustentável</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
+/* 🌸 AGRINHO ROSA PRO - VISUAL AVANÇADO 🌸 */
 
-  <header class="topo">
-    <div class="marca">
-      <div class="logo" aria-hidden="true">AG</div>
-      <div>
-        <p class="selo">Concurso Agrinho • Programação</p>
-        <h1>Agro forte, futuro sustentável</h1>
-      </div>
-    </div>
+:root {
+  --fundo: #fff0f5;
+  --fundo-gradiente: linear-gradient(180deg, #fff5fa, #ffe4f1);
+  --card: rgba(255, 255, 255, 0.7);
+  --texto: #4a1f2d;
+  --texto-fraco: #7a4b5a;
+  --primaria: #ff4da6;
+  --primaria-escura: #cc2d7a;
+  --secundaria: #ffd6eb;
+  --borda: rgba(255, 77, 166, 0.25);
+  --sombra: 0 15px 40px rgba(255, 77, 166, 0.25);
+  --raio: 20px;
+}
 
-    <nav class="navegacao" aria-label="Navegação principal">
-      <a href="#acoes">Ações</a>
-      <a href="#simulador">Simulador</a>
-      <a href="#dicas">Dicas</a>
-      <button id="botaoTema" class="botao botao-secundario" type="button" aria-pressed="false">
-        Modo escuro
-      </button>
-    </nav>
-  </header>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <main id="conteudo-principal">
-    <section class="hero">
-      <div class="hero-texto">
-        <p class="tag">Agricultura, tecnologia e consciência ambiental</p>
-        <h2>Produzir bem hoje sem comprometer o amanhã.</h2>
-        <p>
-          Este projeto mostra como pequenas decisões no campo podem aumentar a produção
-          e reduzir impactos no solo, na água e no clima.
-        </p>
+/* 🌈 FUNDO */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--fundo-gradiente);
+  color: var(--texto);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        <div class="hero-botoes">
-          <a class="botao" href="#acoes">Começar jornada</a>
-          <a class="botao botao-secundario" href="#aprenda">Entender o tema</a>
-        </div>
-      </div>
+/* 🌙 MODO ESCURO */
+body.dark {
+  --fundo-gradiente: linear-gradient(180deg, #1a0f14, #2a1820);
+  --card: rgba(40, 20, 30, 0.85);
+  --texto: #ffeaf4;
+  --texto-fraco: #e0b3c6;
+  --primaria: #ff66b3;
+  --secundaria: #3a1f2d;
+}
 
-      <aside class="card-resumo" aria-label="Resumo do projeto">
-        <h3>Meta do projeto</h3>
-        <p>Acumular pontos sustentáveis escolhendo boas práticas agrícolas.</p>
+/* HEADER */
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+}
 
-        <ul>
-          <li>Economia de água</li>
-          <li>Proteção do solo</li>
-          <li>Uso consciente de recursos</li>
-        </ul>
+.logo {
+  background: linear-gradient(135deg, var(--primaria), #ff99cc);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-weight: bold;
+  box-shadow: var(--sombra);
+}
 
-        <div class="placar-mini">
-          <span>Pontos sustentáveis</span>
-          <strong id="pontosHero">0</strong>
-        </div>
-      </aside>
-    </section>
+/* NAV */
+.navegacao a {
+  margin: 0 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: 0.3s;
+}
 
-    <section id="aprenda" class="secao">
-      <div class="cabecalho-secao">
-        <p class="tag">Aprendizado</p>
-        <h2>O equilíbrio entre produção e meio ambiente</h2>
-      </div>
+.navegacao a:hover {
+  background: var(--secundaria);
+}
 
-      <div class="grade-info">
-        <article class="cartao-info">
-          <h3>Água</h3>
-          <p>
-            Irrigação inteligente evita desperdício e ajuda a manter a lavoura saudável.
-          </p>
-        </article>
+/* BOTÕES */
+.botao {
+  background: linear-gradient(135deg, var(--primaria), #ff80bf);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: var(--sombra);
+}
 
-        <article class="cartao-info">
-          <h3>Solo</h3>
-          <p>
-            Rotação de culturas e cobertura vegetal preservam nutrientes e evitam erosão.
-          </p>
-        </article>
+.botao:hover {
+  transform: translateY(-3px) scale(1.05);
+}
 
-        <article class="cartao-info">
-          <h3>Energia</h3>
-          <p>
-            Máquinas mais eficientes e energia limpa reduzem custos e impactos ambientais.
-          </p>
-        </article>
-      </div>
-    </section>
+.botao-secundario {
+  background: var(--secundaria);
+  color: var(--texto);
+}
 
-    <section id="acoes" class="secao painel-interativo">
-      <div class="cabecalho-secao">
-        <p class="tag">Interação</p>
-        <h2>Escolha ações sustentáveis</h2>
-      </div>
+/* HERO */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2rem;
+  gap: 25px;
+}
 
-      <p class="descricao">
-        Clique nas ações abaixo para somar pontos e ver como cada decisão contribui para um agro mais sustentável.
-      </p>
+.hero-texto {
+  background: var(--card);
+  padding: 25px;
+  border-radius: var(--raio);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--sombra);
+  animation: fadeIn 1s ease;
+}
 
-      <div class="grade-acoes">
-        <button class="acao" type="button"
-          data-pontos="15"
-          data-mensagem="Irrigação inteligente: excelente escolha! Você economizou água e aumentou a eficiência.">
-          Irrigação inteligente
-        </button>
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
 
-        <button class="acao" type="button"
-          data-pontos="10"
-          data-mensagem="Rotação de culturas: ótima decisão! O solo ficou mais protegido e fértil.">
-          Rotação de culturas
-        </button>
+.hero p {
+  color: var(--texto-fraco);
+  line-height: 1.6;
+}
 
-        <button class="acao" type="button"
-          data-pontos="20"
-          data-mensagem="Energia limpa: decisão forte! Você reduziu impactos e ajudou o planeta.">
-          Energia limpa
-        </button>
+/* ✨ IMAGEM COM ANIMAÇÃO */
+.imagem-hero {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 25px;
+  box-shadow: var(--sombra);
+  transition: 0.4s;
+  animation: float 3s ease-in-out infinite;
+}
 
-        <button class="acao" type="button"
-          data-pontos="12"
-          data-mensagem="Compostagem: muito bom! Resíduos viraram adubo e evitaram desperdício.">
-          Compostagem
-        </button>
-      </div>
+.imagem-hero:hover {
+  transform: scale(1.1) rotate(-3deg);
+}
 
-      <div class="resultado" aria-live="polite">
-        <p>Placar sustentável: <strong id="pontos">0</strong> pontos</p>
-        <p id="mensagem">Comece escolhendo uma ação.</p>
-      </div>
+/* CARDS */
+.cartao-info,
+.card-resumo,
+.painel-interativo,
+.simulador,
+.cartao-dica {
+  background: var(--card);
+  border-radius: var(--raio);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--sombra);
+  transition: 0.3s;
+}
 
-      <button id="reiniciar" class="botao botao-secundario" type="button">Reiniciar placar</button>
-    </section>
+.cartao-info:hover {
+  transform: translateY(-5px);
+}
 
-    <section id="simulador" class="secao simulador">
-      <div class="cabecalho-secao">
-        <p class="tag">Simulador</p>
-        <h2>Uso consciente da água na lavoura</h2>
-      </div>
+/* GRID */
+.grade-info,
+.grade-acoes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
 
-      <label for="agua">Ajuste o nível de uso da água</label>
-      <input id="agua" type="range" min="0" max="100" value="45" />
+/* AÇÕES */
+.acao {
+  border: 1px solid var(--borda);
+  border-radius: 15px;
+  padding: 12px;
+  background: white;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
 
-      <div class="linha-status">
-        <span>Uso atual</span>
-        <strong id="valorAgua">45%</strong>
-      </div>
+.acao:hover {
+  background: var(--secundaria);
+  transform: scale(1.05);
+}
 
-      <div class="barra" aria-hidden="true">
-        <div id="nivelAgua" class="nivel"></div>
-      </div>
+/* RESULTADO */
+.resultado {
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
 
-      <p id="textoAgua" class="texto-simulador">
-        Nível equilibrado. A produção segue bem, com uso consciente de recursos.
-      </p>
-    </section>
+/* SIMULADOR */
+.barra {
+  height: 14px;
+  background: #ffd6eb;
+  border-radius: 999px;
+  margin: 10px 0;
+}
 
-    <section id="dicas" class="secao">
-      <div class="cabecalho-secao">
-        <p class="tag">Dica do dia</p>
-        <h2>Uma sugestão para fortalecer o agro sustentável</h2>
-      </div>
+.nivel {
+  height: 100%;
+  background: linear-gradient(90deg, #ff80bf, var(--primaria));
+  border-radius: 999px;
+  transition: width 0.3s;
+}
 
-      <article class="cartao-dica">
-        <p id="dicaTexto">Faça o manejo da água com planejamento e observe o solo antes de irrigar.</p>
-        <button id="novaDica" class="botao" type="button">Nova dica</button>
-      </article>
-    </section>
-  </main>
+/* DICA */
+.cartao-dica {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-  <footer class="rodape">
-    <p>Projeto Agrinho • Agro forte, futuro sustentável</p>
-    <p>Feito com HTML, CSS e JavaScript.</p>
-  </footer>
+/* FOOTER */
+.rodape {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid var(--borda);
+  margin-top: 30px;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+/* ✨ ANIMAÇÕES */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* 📱 RESPONSIVO */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .grade-info,
+  .grade-acoes {
+    grid-template-columns: 1fr;
+  }
+}
