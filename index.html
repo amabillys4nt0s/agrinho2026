@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Projeto Agrinho sobre equilíbrio entre produção e meio ambiente." />
+  <title>Agrinho | Agro forte, futuro sustentável</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="marca">
+      <div class="logo" aria-hidden="true">AG</div>
+      <div>
+        <p class="selo">Concurso Agrinho • Programação</p>
+        <h1>Agro forte, futuro sustentável</h1>
+      </div>
+    </div>
+
+    <nav class="navegacao" aria-label="Navegação principal">
+      <a href="#acoes">Ações</a>
+      <a href="#simulador">Simulador</a>
+      <a href="#dicas">Dicas</a>
+      <button id="botaoTema" class="botao botao-secundario" type="button" aria-pressed="false">
+        Modo escuro
+      </button>
+    </nav>
+  </header>
+
+  <main id="conteudo-principal">
+    <section class="hero">
+      <div class="hero-texto">
+        <p class="tag">Agricultura, tecnologia e consciência ambiental</p>
+        <h2>Produzir bem hoje sem comprometer o amanhã.</h2>
+        <p>
+          Este projeto mostra como pequenas decisões no campo podem aumentar a produção
+          e reduzir impactos no solo, na água e no clima.
+        </p>
+
+        <div class="hero-botoes">
+          <a class="botao" href="#acoes">Começar jornada</a>
+          <a class="botao botao-secundario" href="#aprenda">Entender o tema</a>
+        </div>
+      </div>
+
+      <aside class="card-resumo" aria-label="Resumo do projeto">
+        <h3>Meta do projeto</h3>
+        <p>Acumular pontos sustentáveis escolhendo boas práticas agrícolas.</p>
+
+        <ul>
+          <li>Economia de água</li>
+          <li>Proteção do solo</li>
+          <li>Uso consciente de recursos</li>
+        </ul>
+
+        <div class="placar-mini">
+          <span>Pontos sustentáveis</span>
+          <strong id="pontosHero">0</strong>
+        </div>
+      </aside>
+    </section>
+
+    <section id="aprenda" class="secao">
+      <div class="cabecalho-secao">
+        <p class="tag">Aprendizado</p>
+        <h2>O equilíbrio entre produção e meio ambiente</h2>
+      </div>
+
+      <div class="grade-info">
+        <article class="cartao-info">
+          <h3>Água</h3>
+          <p>
+            Irrigação inteligente evita desperdício e ajuda a manter a lavoura saudável.
+          </p>
+        </article>
+
+        <article class="cartao-info">
+          <h3>Solo</h3>
+          <p>
+            Rotação de culturas e cobertura vegetal preservam nutrientes e evitam erosão.
+          </p>
+        </article>
+
+        <article class="cartao-info">
+          <h3>Energia</h3>
+          <p>
+            Máquinas mais eficientes e energia limpa reduzem custos e impactos ambientais.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="acoes" class="secao painel-interativo">
+      <div class="cabecalho-secao">
+        <p class="tag">Interação</p>
+        <h2>Escolha ações sustentáveis</h2>
+      </div>
+
+      <p class="descricao">
+        Clique nas ações abaixo para somar pontos e ver como cada decisão contribui para um agro mais sustentável.
+      </p>
+
+      <div class="grade-acoes">
+        <button class="acao" type="button"
+          data-pontos="15"
+          data-mensagem="Irrigação inteligente: excelente escolha! Você economizou água e aumentou a eficiência.">
+          Irrigação inteligente
+        </button>
+
+        <button class="acao" type="button"
+          data-pontos="10"
+          data-mensagem="Rotação de culturas: ótima decisão! O solo ficou mais protegido e fértil.">
+          Rotação de culturas
+        </button>
+
+        <button class="acao" type="button"
+          data-pontos="20"
+          data-mensagem="Energia limpa: decisão forte! Você reduziu impactos e ajudou o planeta.">
+          Energia limpa
+        </button>
+
+        <button class="acao" type="button"
+          data-pontos="12"
+          data-mensagem="Compostagem: muito bom! Resíduos viraram adubo e evitaram desperdício.">
+          Compostagem
+        </button>
+      </div>
+
+      <div class="resultado" aria-live="polite">
+        <p>Placar sustentável: <strong id="pontos">0</strong> pontos</p>
+        <p id="mensagem">Comece escolhendo uma ação.</p>
+      </div>
+
+      <button id="reiniciar" class="botao botao-secundario" type="button">Reiniciar placar</button>
+    </section>
+
+    <section id="simulador" class="secao simulador">
+      <div class="cabecalho-secao">
+        <p class="tag">Simulador</p>
+        <h2>Uso consciente da água na lavoura</h2>
+      </div>
+
+      <label for="agua">Ajuste o nível de uso da água</label>
+      <input id="agua" type="range" min="0" max="100" value="45" />
+
+      <div class="linha-status">
+        <span>Uso atual</span>
+        <strong id="valorAgua">45%</strong>
+      </div>
+
+      <div class="barra" aria-hidden="true">
+        <div id="nivelAgua" class="nivel"></div>
+      </div>
+
+      <p id="textoAgua" class="texto-simulador">
+        Nível equilibrado. A produção segue bem, com uso consciente de recursos.
+      </p>
+    </section>
+
+    <section id="dicas" class="secao">
+      <div class="cabecalho-secao">
+        <p class="tag">Dica do dia</p>
+        <h2>Uma sugestão para fortalecer o agro sustentável</h2>
+      </div>
+
+      <article class="cartao-dica">
+        <p id="dicaTexto">Faça o manejo da água com planejamento e observe o solo antes de irrigar.</p>
+        <button id="novaDica" class="botao" type="button">Nova dica</button>
+      </article>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p>Projeto Agrinho • Agro forte, futuro sustentável</p>
+    <p>Feito com HTML, CSS e JavaScript.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
