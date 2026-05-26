@@ -86,3 +86,47 @@ function endGame() {
 
 // iniciar
 loadQuestion();
+const questions = [
+    {
+        question: "Qual atitude ajuda o meio ambiente?",
+        options: ["Jogar lixo no rio", "Reciclar", "Poluir"],
+        answer: "Reciclar"
+    },
+    {
+        question: "O que é sustentável?",
+        options: ["Desmatar", "Preservar natureza", "Poluir"],
+        answer: "Preservar natureza"
+    }
+];
+
+function askQuestion(object, index) {
+
+    const q = questions[Math.floor(Math.random() * questions.length)];
+
+    let userAnswer = prompt(
+        q.question + "\n\n" +
+        q.options.map((opt, i) => `${i + 1} - ${opt}`).join("\n")
+    );
+
+    let chosen = q.options[userAnswer - 1];
+
+    if (chosen === q.answer) {
+
+        alert("✅ Acertou! Você avançou!");
+
+        score += 20;
+        scoreText.innerText = score;
+
+    } else {
+
+        alert("❌ Errou! Tente melhorar suas escolhas sustentáveis.");
+
+    }
+
+    object.element.remove();
+    objects.splice(index, 1);
+
+    gameRunning = true;
+    gameLoop();
+    spawnLoop();
+}
