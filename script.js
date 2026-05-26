@@ -1,101 +1,128 @@
-let eco = 50;
-let prod = 50;
-let nivel = 1;
+const player = document.getElementById("player");
+const game = document.getElementById("game");
+const scoreEl = document.getElementById("score");
+const lifeEl = document.getElementById("life");
+const message = document.getElementById("message");
 
-const ecoEl = document.getElementById("eco");
-const prodEl = document.getElementById("prod");
-const nivelEl = document.getElementById("nivel");
-const titulo = document.getElementById("titulo");
-const descricao = document.getElementById("descricao");
-const botoes = document.querySelectorAll(".opcao");
-const historico = document.getElementById("historico");
+let playerY = 0;
+let velocity = 0;
+let gravity = 0.8;
+let isJumping = false;
 
-const cenarios = [
-  {
-    titulo: "Uso de água",
-    descricao: "Sua plantação precisa de irrigação.",
-    opcoes: [
-      { texto: "Usar irrigação inteligente", eco: +15, prod: +10 },
-      { texto: "Usar água sem controle", eco: -20, prod: +15 },
-      { texto: "Não irrigar", eco: +5, prod: -20 }
-    ]
-  },
-  {
-    titulo: "Uso de agrotóxicos",
-    descricao: "Pragas estão atacando sua plantação.",
-    opcoes: [
-      { texto: "Controle biológico", eco: +15, prod: +5 },
-      { texto: "Muito agrotóxico", eco: -25, prod: +20 },
-      { texto: "Nada", eco: +5, prod: -15 }
-    ]
-  },
-  {
-    titulo: "Solo",
-    descricao: "Seu solo está desgastado.",
-    opcoes: [
-      { texto: "Rotação de culturas", eco: +20, prod: +10 },
-      { texto: "Ignorar", eco: -15, prod: +5 },
-      { texto: "Descansar solo", eco: +10, prod: -10 }
-    ]
-  }
-];
+let score = 0;
+let life = 3;
 
-let atual = 0;
+let gameRunning = false;
 
-function atualizarTela() {
-  ecoEl.textContent = eco;
-  prodEl.textContent = prod;
-  nivelEl.textContent = nivel;
+// movimento
+document.addEventListener("keydown", (e) => {
+    if (!gameRunning) return;
 
-  const c = cenarios[atual];
-  titulo.textContent = c.titulo;
-  descricao.textContent = c.descricao;
+    if (e.code === "Space" && !isJumping) {
+        velocity = -15;
+        isJumping = true;
+    }
+});
 
-  c.opcoes.forEach((op, i) => {
-    botoes[i].textContent = op.texto;
-  });
+// loop principal
+function gameLoop() {
+    if (!gameRunning) return;
+
+    velocity += gravity;
+    playerY -= velocity;
+
+    if (playerY <= 0) {
+        playerY = 0;
+        isJumping = false;
+    }
+
+    player.style.bottom = playerY + "px";
+
+    requestAnimationFrame(gameLoop);
 }
 
-function escolher(i) {
-  const escolha = cenarios[atual].opcoes[i];
+// criar itens
+function spawnItem(type) {
+    const el = document.createElement("div");
+    el.classList.add(type);
+    el.style.left = "800px";
 
-  eco += escolha.eco;
-  prod += escolha.prod;
+    game.appendChild(el);
 
-  adicionarHistorico(escolha.texto);
+    let posX = 800;
 
-  atual = (atual + 1) % cenarios.length;
+    function move() {
+        if (!gameRunning) return;
 
-  if (eco > 80 && prod > 80) {
-    nivel++;
-  }
+        posX -= 5;
+        el.style.left = posX + "px";
 
-  verificarFim();
-  atualizarTela();
+        checkCollision(el, type);
+
+        if (posX > -50) {
+            requestAnimationFrame(move);
+        } else {
+            el.remove();
+        }
+    }
+
+    move();
 }
 
-function adicionarHistorico(texto) {
-  const li = document.createElement("li");
-  li.textContent = texto;
-  historico.appendChild(li);
+// colisão
+function checkCollision(el, type) {
+    const playerRect = player.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+
+    if (
+        playerRect.left < rect.right &&
+        playerRect.right > rect.left &&
+        playerRect.top < rect.bottom &&
+        playerRect.bottom > rect.top
+    ) {
+        el.remove();
+
+        if (type === "item") {
+            score += 10;
+            scoreEl.innerText = score;
+        } else {
+            life--;
+            lifeEl.innerText = life;
+
+            if (life <= 0) endGame();
+        }
+    }
 }
 
-function verificarFim() {
-  if (eco <= 0) {
-    alert("💀 Você destruiu o meio ambiente!");
-    reiniciar();
-  }
-  if (prod <= 0) {
-    alert("💸 Sua fazenda faliu!");
-    reiniciar();
-  }
+// spawn automático
+function spawnLoop() {
+    if (!gameRunning) return;
+
+    const rand = Math.random();
+
+    if (rand > 0.5) {
+        spawnItem("item");
+    } else {
+        spawnItem("enemy");
+    }
+
+    setTimeout(spawnLoop, 1500);
 }
 
-function reiniciar() {
-  eco = 50;
-  prod = 50;
-  nivel = 1;
-  historico.innerHTML = "";
+// fim de jogo
+function endGame() {
+    gameRunning = false;
+
+    message.classList.remove("hidden");
+    message.innerHTML = `
+    🌍 Você fez ${score} pontos!<br>
+    Precisamos cuidar do meio ambiente para garantir um futuro sustentável!
+    `;
 }
 
-atualizarTela();
+// iniciar jogo
+document.getElementById("startBtn").addEventListener("click", () => {
+    gameRunning = true;
+    gameLoop();
+    spawnLoop();
+});
