@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agro Runner</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agro Runner</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 
 <body>
 
-<!-- MENU -->
-<div id="menu">
-    <h1>🌱 Agro Runner</h1>
-    <button onclick="startGame()">Jogar</button>
-</div>
+    <!-- MENU -->
+    <div id="menu">
+        <h1>🌱 Agro Runner</h1>
+        <p>Proteja o meio ambiente!</p>
 
-<!-- JOGO -->
-<div id="gameContainer" class="hidden">
-    <p>Pontos: <span id="score">0</span></p>
+        <button id="playButton">
+            Jogar
+        </button>
+    </div>
 
-    <div id="game">
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+        ⭐ Pontos:
+        <span id="score">0</span>
+    </div>
+
+    <!-- GAME -->
+    <div id="game" class="hidden">
         <div id="player"></div>
     </div>
-</div>
 
-<script src="script.js" defer></script>
 </body>
+
 </html>
