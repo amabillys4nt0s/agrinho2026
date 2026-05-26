@@ -1,107 +1,88 @@
 // ELEMENTOS
-const player = document.getElementById("player");
-const game = document.getElementById("game");
-
-const scoreEl = document.getElementById("score");
-const lifeEl = document.getElementById("life");
-const faseEl = document.getElementById("fase");
-
-const gameOverScreen = document.getElementById("gameOverScreen");
-const finalScore = document.getElementById("finalScore");
-
-// SONS
-const jumpSound = new Audio("assets/jump.mp3");
-const coinSound = new Audio("assets/coin.mp3");
-const hitSound = new Audio("assets/hit.mp3");
+let player = document.getElementById("player");
+let game = document.getElementById("game");
+let scoreEl = document.getElementById("score");
 
 // ESTADO
-let state = {
-    y: 50,
-    velocity: 0,
-    gravity: 0.8,
-    jumping: false,
-    running: false,
-    score: 0,
-    life: 3,
-    fase: 1,
-    speed: 6
-};
+let y = 40;
+let velocity = 0;
+let gravity = 0.8;
+let jumping = false;
+
+let score = 0;
+let running = false;
 
 let objects = [];
 
-// CONTROLES
-document.addEventListener("keydown", (e) => {
-    if (e.code === "Space" && !state.jumping && state.running) {
-        state.velocity = -15;
-        state.jumping = true;
-        jumpSound.play();
+// BOTÃO JOGAR (AGORA FUNCIONA)
+function startGame() {
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("gameContainer").classList.remove("hidden");
+
+    running = true;
+    gameLoop();
+    spawnLoop();
+}
+
+// PULO
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space" && !jumping && running) {
+        velocity = -15;
+        jumping = true;
     }
 });
 
 // LOOP
 function gameLoop() {
-    if (!state.running) return;
+    if (!running) return;
 
     updatePlayer();
     updateObjects();
-    updateFase();
-    animatePlayer();
 
     requestAnimationFrame(gameLoop);
 }
 
 // PLAYER
 function updatePlayer() {
-    state.velocity += state.gravity;
-    state.y -= state.velocity;
+    velocity += gravity;
+    y -= velocity;
 
-    if (state.y <= 50) {
-        state.y = 50;
-        state.velocity = 0;
-        state.jumping = false;
+    if (y <= 40) {
+        y = 40;
+        velocity = 0;
+        jumping = false;
     }
 
-    player.style.bottom = state.y + "px";
+    player.style.bottom = y + "px";
 }
 
-// ANIMAÇÃO
-function animatePlayer() {
-    player.classList.toggle("running");
-}
-
-// OBJETOS
+// CRIAR OBJETOS
 function createObject(type) {
     let el = document.createElement("div");
     el.classList.add(type);
-
-    el.style.left = "900px";
-    el.style.bottom = type === "item" ? "120px" : "50px";
+    el.style.left = "800px";
 
     game.appendChild(el);
 
     objects.push({
         el: el,
-        x: 900,
+        x: 800,
         type: type
     });
 }
 
+// ATUALIZAR OBJETOS
 function updateObjects() {
     objects.forEach((obj, index) => {
-        obj.x -= state.speed;
+        obj.x -= 6;
         obj.el.style.left = obj.x + "px";
 
-        if (collision(obj)) {
+        if (checkCollision(obj)) {
             if (obj.type === "item") {
-                state.score += 10;
-                coinSound.play();
-                scoreEl.innerText = state.score;
+                score += 10;
+                scoreEl.innerText = score;
             } else {
-                state.life--;
-                hitSound.play();
-                lifeEl.innerText = state.life;
-
-                if (state.life <= 0) return gameOver();
+                gameOver();
             }
 
             obj.el.remove();
@@ -116,12 +97,12 @@ function updateObjects() {
 }
 
 // COLISÃO
-function collision(obj) {
+function checkCollision(obj) {
     let px = 100;
-    let py = state.y;
+    let py = y;
 
     let ox = obj.x;
-    let oy = obj.type === "item" ? 120 : 50;
+    let oy = obj.type === "item" ? 120 : 40;
 
     return (
         px < ox + 40 &&
@@ -133,64 +114,18 @@ function collision(obj) {
 
 // SPAWN
 function spawnLoop() {
-    if (!state.running) return;
+    if (!running) return;
 
-    let type = Math.random() > 0.6 ? "item" : "enemy";
+    let type = Math.random() > 0.6 ? "item" : "obstacle";
     createObject(type);
 
-    let delay = 1000 + Math.random() * 800;
+    let delay = 1200 + Math.random() * 800;
     setTimeout(spawnLoop, delay);
-}
-
-// FASES + DIA/NOITE
-function updateFase() {
-    if (state.score > 50 && state.fase === 1) {
-        state.fase = 2;
-        faseEl.innerText = "Cidade";
-        game.classList.add("noite");
-        state.speed = 8;
-    }
-
-    if (state.score > 120 && state.fase === 2) {
-        state.fase = 3;
-        faseEl.innerText = "Floresta";
-        game.classList.remove("noite");
-        state.speed = 10;
-    }
-}
-
-// START
-function startGame() {
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("gameContainer").classList.remove("hidden");
-
-    state.running = true;
-    gameLoop();
-    spawnLoop();
-}
-
-// TELAS
-function showTutorial() {
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("tutorial").classList.remove("hidden");
-}
-
-function backMenu() {
-    document.getElementById("tutorial").classList.add("hidden");
-    document.getElementById("menu").classList.remove("hidden");
 }
 
 // GAME OVER
 function gameOver() {
-    state.running = false;
-
-    document.getElementById("gameContainer").classList.add("hidden");
-    gameOverScreen.classList.remove("hidden");
-
-    finalScore.innerText = "Pontuação: " + state.score;
-}
-
-// RESTART
-function restartGame() {
+    running = false;
+    alert("Game Over! Pontos: " + score);
     location.reload();
 }
