@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Agro Adventure</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Agro Adventure</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>🌱 Agro Adventure</h1>
-
-<div id="hud">
-    ❤️ Vida: <span id="life">3</span> |
-    ⭐ Pontos: <span id="score">0</span>
+<div id="menu">
+    <h1>🌱 Agro Adventure</h1>
+    <p>Ajude o planeta!</p>
+    <button onclick="startGame()">Jogar</button>
+    <button onclick="showTutorial()">Tutorial</button>
 </div>
 
-<div id="game">
-    <div id="player"></div>
+<div id="tutorial" class="hidden">
+    <h2>Como jogar</h2>
+    <p>Espaço = pular</p>
+    <p>🌱 = ganhar pontos</p>
+    <p>☠️ = perder vida</p>
+    <button onclick="backMenu()">Voltar</button>
 </div>
 
-<button id="startBtn">Iniciar Jogo</button>
+<div id="gameContainer" class="hidden">
+    <div id="hud">
+        ❤️ <span id="life">3</span> |
+        ⭐ <span id="score">0</span> |
+        🌍 Fase: <span id="fase">Fazenda</span>
+    </div>
 
-<div id="message" class="hidden"></div>
+    <div id="game">
+        <div id="player"></div>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>
