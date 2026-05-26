@@ -1,225 +1,88 @@
-// ELEMENTOS
+// PERGUNTAS
+const questions = [
+    {
+        q: "O que é sustentabilidade?",
+        options: [
+            "Cuidar do meio ambiente",
+            "Poluir mais",
+            "Gastar recursos sem pensar"
+        ],
+        correct: 0
+    },
+    {
+        q: "Qual é energia limpa?",
+        options: [
+            "Carvão",
+            "Solar",
+            "Petróleo"
+        ],
+        correct: 1
+    },
+    {
+        q: "O que ajuda o planeta?",
+        options: [
+            "Desmatamento",
+            "Reciclagem",
+            "Poluição"
+        ],
+        correct: 1
+    }
+];
 
-const playButton = document.getElementById("playButton");
-
-const menu = document.getElementById("menu");
-
-const game = document.getElementById("game");
-
-const hud = document.getElementById("hud");
-
-const player = document.getElementById("player");
-
-const scoreText = document.getElementById("score");
-
-// ESTADO
-
-let gameRunning = false;
-
+let current = 0;
 let score = 0;
 
-let playerY = 50;
+// carregar pergunta
+function loadQuestion() {
+    let q = questions[current];
 
-let velocity = 0;
+    document.getElementById("question").innerText = q.q;
 
-const gravity = 0.8;
+    let buttons = document.querySelectorAll("#answers button");
 
-let jumping = false;
-
-let objects = [];
-
-// BOTÃO JOGAR
-
-playButton.addEventListener("click", startGame);
-
-// START
-
-function startGame() {
-
-    menu.classList.add("hidden");
-
-    game.classList.remove("hidden");
-
-    hud.classList.remove("hidden");
-
-    gameRunning = true;
-
-    gameLoop();
-
-    spawnLoop();
+    buttons.forEach((btn, i) => {
+        btn.innerText = q.options[i];
+    });
 }
 
-// PULO
+// responder
+function answer(index) {
+    let q = questions[current];
 
-document.addEventListener("keydown", function(event) {
-
-    if (
-        event.code === "Space" &&
-        !jumping &&
-        gameRunning
-    ) {
-
-        velocity = -15;
-
-        jumping = true;
+    if (index === q.correct) {
+        score++;
+        moveCat();
     }
 
-});
+    current++;
 
-// LOOP PRINCIPAL
-
-function gameLoop() {
-
-    if (!gameRunning) return;
-
-    updatePlayer();
-
-    updateObjects();
-
-    requestAnimationFrame(gameLoop);
-}
-
-// PLAYER
-
-function updatePlayer() {
-
-    velocity += gravity;
-
-    playerY -= velocity;
-
-    if (playerY <= 50) {
-
-        playerY = 50;
-
-        velocity = 0;
-
-        jumping = false;
+    if (current < questions.length) {
+        loadQuestion();
+    } else {
+        endGame();
     }
 
-    player.style.bottom = playerY + "px";
+    document.getElementById("score").innerText = "Acertos: " + score;
 }
 
-// CRIAR OBJETOS
+// mover gatinho
+function moveCat() {
+    let cat = document.getElementById("cat");
 
-function createObject(type) {
+    let position = score * 100; // desce
 
-    const object = document.createElement("div");
-
-    object.classList.add(type);
-
-    object.style.left = "900px";
-
-    game.appendChild(object);
-
-    objects.push({
-        element: object,
-        x: 900,
-        type: type
-    });
-
+    cat.style.top = position + "px";
 }
 
-// SPAWN
+// final
+function endGame() {
+    document.getElementById("question").innerText = "Fim! 🌍";
 
-function spawnLoop() {
-
-    if (!gameRunning) return;
-
-    const randomType =
-        Math.random() > 0.6
-        ? "item"
-        : "obstacle";
-
-    createObject(randomType);
-
-    const randomTime =
-        1200 + Math.random() * 1000;
-
-    setTimeout(
-        spawnLoop,
-        randomTime
-    );
-
+    if (score === questions.length) {
+        document.getElementById("question").innerText =
+            "Parabéns! Você salvou o planeta 🌈";
+    }
 }
 
-// UPDATE OBJETOS
-
-function updateObjects() {
-
-    objects.forEach((object, index) => {
-
-        object.x -= 6;
-
-        object.element.style.left =
-            object.x + "px";
-
-        if (checkCollision(object)) {
-
-            if (object.type === "item") {
-
-                score += 10;
-
-                scoreText.innerText = score;
-
-            } else {
-
-                gameOver();
-
-            }
-
-            object.element.remove();
-
-            objects.splice(index, 1);
-
-        }
-
-        if (object.x < -50) {
-
-            object.element.remove();
-
-            objects.splice(index, 1);
-
-        }
-
-    });
-
-}
-
-// COLISÃO
-
-function checkCollision(object) {
-
-    const playerX = 100;
-
-    const objectX = object.x;
-
-    const objectY =
-        object.type === "item"
-        ? 120
-        : 50;
-
-    return (
-
-        playerX < objectX + 40 &&
-        playerX + 50 > objectX &&
-
-        playerY < objectY + 40 &&
-        playerY + 50 > objectY
-
-    );
-
-}
-
-// GAME OVER
-
-function gameOver() {
-
-    gameRunning = false;
-
-    alert(
-        "🌍 Game Over! Pontos: " + score
-    );
-
-    location.reload();
-
-}
+// iniciar
+loadQuestion();
