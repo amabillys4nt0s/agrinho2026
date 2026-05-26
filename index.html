@@ -1,43 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Agro Game Sustentável</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Agro Adventure</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-  <h1>🌸 Agro Sustentável Game</h1>
-  <p>Equilibre produção e meio ambiente</p>
-</header>
+<h1>🌱 Agro Adventure</h1>
 
-<main>
+<div id="hud">
+    ❤️ Vida: <span id="life">3</span> |
+    ⭐ Pontos: <span id="score">0</span>
+</div>
 
-<section class="status">
-  <div>🌱 Sustentabilidade: <span id="eco">50</span></div>
-  <div>💰 Produção: <span id="prod">50</span></div>
-  <div>⭐ Nível: <span id="nivel">1</span></div>
-</section>
+<div id="game">
+    <div id="player"></div>
+</div>
 
-<section class="cenario">
-  <h2 id="titulo">Escolha uma ação</h2>
-  <p id="descricao">Você começou sua fazenda.</p>
-</section>
+<button id="startBtn">Iniciar Jogo</button>
 
-<section class="opcoes">
-  <button class="opcao" onclick="escolher(0)"></button>
-  <button class="opcao" onclick="escolher(1)"></button>
-  <button class="opcao" onclick="escolher(2)"></button>
-</section>
-
-<section class="log">
-  <h3>📜 Histórico</h3>
-  <ul id="historico"></ul>
-</section>
-
-</main>
+<div id="message" class="hidden"></div>
 
 <script src="script.js"></script>
 </body>
