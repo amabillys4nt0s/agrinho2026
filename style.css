@@ -1,52 +1,50 @@
 body {
-  font-family: Arial;
-  background: linear-gradient(#fff0f5, #ffe4f1);
-  text-align: center;
-  margin: 0;
+    text-align: center;
+    font-family: Arial;
+    background: linear-gradient(#a8e6cf, #dcedc1);
 }
 
-header {
-  background: #ff4da6;
-  color: white;
-  padding: 15px;
+#game {
+    width: 90%;
+    max-width: 800px;
+    height: 350px;
+    background: linear-gradient(#87ceeb, #228B22);
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
-.status {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  font-weight: bold;
+#player {
+    width: 50px;
+    height: 50px;
+    background: url('assets/player.png') no-repeat center/cover;
+    position: absolute;
+    bottom: 0;
+    left: 50px;
 }
 
-.cenario {
-  background: white;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 15px;
+.item {
+    width: 40px;
+    height: 40px;
+    background: url('assets/tree.png') no-repeat center/cover;
+    position: absolute;
+    bottom: 0;
 }
 
-.opcoes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 20px;
+.enemy {
+    width: 40px;
+    height: 40px;
+    background: url('assets/pollution.png') no-repeat center/cover;
+    position: absolute;
+    bottom: 0;
 }
 
-.opcao {
-  padding: 15px;
-  border: none;
-  background: #ffd6eb;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
+.hidden {
+    display: none;
 }
 
-.opcao:hover {
-  background: #ff4da6;
-  color: white;
-}
-
-.log {
-  margin: 20px;
-  text-align: left;
+#message {
+    font-size: 20px;
+    margin-top: 15px;
 }
