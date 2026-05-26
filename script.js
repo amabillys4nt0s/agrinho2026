@@ -1,131 +1,225 @@
 // ELEMENTOS
-let player = document.getElementById("player");
-let game = document.getElementById("game");
-let scoreEl = document.getElementById("score");
+
+const playButton = document.getElementById("playButton");
+
+const menu = document.getElementById("menu");
+
+const game = document.getElementById("game");
+
+const hud = document.getElementById("hud");
+
+const player = document.getElementById("player");
+
+const scoreText = document.getElementById("score");
 
 // ESTADO
-let y = 40;
-let velocity = 0;
-let gravity = 0.8;
-let jumping = false;
+
+let gameRunning = false;
 
 let score = 0;
-let running = false;
+
+let playerY = 50;
+
+let velocity = 0;
+
+const gravity = 0.8;
+
+let jumping = false;
 
 let objects = [];
 
-// BOTÃO JOGAR (AGORA FUNCIONA)
-function startGame() {
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("gameContainer").classList.remove("hidden");
+// BOTÃO JOGAR
 
-    running = true;
+playButton.addEventListener("click", startGame);
+
+// START
+
+function startGame() {
+
+    menu.classList.add("hidden");
+
+    game.classList.remove("hidden");
+
+    hud.classList.remove("hidden");
+
+    gameRunning = true;
+
     gameLoop();
+
     spawnLoop();
 }
 
 // PULO
-document.addEventListener("keydown", function(e) {
-    if (e.code === "Space" && !jumping && running) {
+
+document.addEventListener("keydown", function(event) {
+
+    if (
+        event.code === "Space" &&
+        !jumping &&
+        gameRunning
+    ) {
+
         velocity = -15;
+
         jumping = true;
     }
+
 });
 
-// LOOP
+// LOOP PRINCIPAL
+
 function gameLoop() {
-    if (!running) return;
+
+    if (!gameRunning) return;
 
     updatePlayer();
+
     updateObjects();
 
     requestAnimationFrame(gameLoop);
 }
 
 // PLAYER
-function updatePlayer() {
-    velocity += gravity;
-    y -= velocity;
 
-    if (y <= 40) {
-        y = 40;
+function updatePlayer() {
+
+    velocity += gravity;
+
+    playerY -= velocity;
+
+    if (playerY <= 50) {
+
+        playerY = 50;
+
         velocity = 0;
+
         jumping = false;
     }
 
-    player.style.bottom = y + "px";
+    player.style.bottom = playerY + "px";
 }
 
 // CRIAR OBJETOS
-function createObject(type) {
-    let el = document.createElement("div");
-    el.classList.add(type);
-    el.style.left = "800px";
 
-    game.appendChild(el);
+function createObject(type) {
+
+    const object = document.createElement("div");
+
+    object.classList.add(type);
+
+    object.style.left = "900px";
+
+    game.appendChild(object);
 
     objects.push({
-        el: el,
-        x: 800,
+        element: object,
+        x: 900,
         type: type
     });
-}
 
-// ATUALIZAR OBJETOS
-function updateObjects() {
-    objects.forEach((obj, index) => {
-        obj.x -= 6;
-        obj.el.style.left = obj.x + "px";
-
-        if (checkCollision(obj)) {
-            if (obj.type === "item") {
-                score += 10;
-                scoreEl.innerText = score;
-            } else {
-                gameOver();
-            }
-
-            obj.el.remove();
-            objects.splice(index, 1);
-        }
-
-        if (obj.x < -50) {
-            obj.el.remove();
-            objects.splice(index, 1);
-        }
-    });
-}
-
-// COLISÃO
-function checkCollision(obj) {
-    let px = 100;
-    let py = y;
-
-    let ox = obj.x;
-    let oy = obj.type === "item" ? 120 : 40;
-
-    return (
-        px < ox + 40 &&
-        px + 50 > ox &&
-        py < oy + 40 &&
-        py + 50 > oy
-    );
 }
 
 // SPAWN
+
 function spawnLoop() {
-    if (!running) return;
 
-    let type = Math.random() > 0.6 ? "item" : "obstacle";
-    createObject(type);
+    if (!gameRunning) return;
 
-    let delay = 1200 + Math.random() * 800;
-    setTimeout(spawnLoop, delay);
+    const randomType =
+        Math.random() > 0.6
+        ? "item"
+        : "obstacle";
+
+    createObject(randomType);
+
+    const randomTime =
+        1200 + Math.random() * 1000;
+
+    setTimeout(
+        spawnLoop,
+        randomTime
+    );
+
+}
+
+// UPDATE OBJETOS
+
+function updateObjects() {
+
+    objects.forEach((object, index) => {
+
+        object.x -= 6;
+
+        object.element.style.left =
+            object.x + "px";
+
+        if (checkCollision(object)) {
+
+            if (object.type === "item") {
+
+                score += 10;
+
+                scoreText.innerText = score;
+
+            } else {
+
+                gameOver();
+
+            }
+
+            object.element.remove();
+
+            objects.splice(index, 1);
+
+        }
+
+        if (object.x < -50) {
+
+            object.element.remove();
+
+            objects.splice(index, 1);
+
+        }
+
+    });
+
+}
+
+// COLISÃO
+
+function checkCollision(object) {
+
+    const playerX = 100;
+
+    const objectX = object.x;
+
+    const objectY =
+        object.type === "item"
+        ? 120
+        : 50;
+
+    return (
+
+        playerX < objectX + 40 &&
+        playerX + 50 > objectX &&
+
+        playerY < objectY + 40 &&
+        playerY + 50 > objectY
+
+    );
+
 }
 
 // GAME OVER
+
 function gameOver() {
-    running = false;
-    alert("Game Over! Pontos: " + score);
+
+    gameRunning = false;
+
+    alert(
+        "🌍 Game Over! Pontos: " + score
+    );
+
     location.reload();
+
 }
