@@ -1,94 +1,130 @@
 body {
     margin: 0;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     text-align: center;
-    background: #e0f7fa;
+    background: #87ceeb;
 }
 
-/* TELAS */
-.hidden { display: none; }
+.hidden {
+    display: none;
+}
 
-#menu, #tutorial, #gameOverScreen {
+/* MENU */
+
+#menu {
     margin-top: 100px;
 }
 
-/* JOGO */
+button {
+    padding: 12px 24px;
+    border: none;
+    background: green;
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* HUD */
+
+#hud {
+    margin-top: 20px;
+    font-size: 22px;
+}
+
+/* GAME */
+
 #game {
     width: 90%;
     max-width: 900px;
     height: 350px;
-    margin: auto;
+
+    margin: 20px auto;
+
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
-    background: linear-gradient(#87ceeb, #228B22);
-    transition: background 1s;
+
+    background:
+    linear-gradient(
+        #87ceeb,
+        #228B22
+    );
+
+    border: 4px solid black;
 }
 
-/* DIA/NOITE */
-.noite {
-    background: linear-gradient(#0f2027, #203a43);
-}
+/* chão */
 
-/* CHÃO */
 #game::after {
     content: "";
+
     position: absolute;
     bottom: 0;
+
     width: 200%;
     height: 50px;
-    background: #5a3e1b;
+
+    background: #5c3b1e;
+
     animation: groundMove 2s linear infinite;
 }
 
 @keyframes groundMove {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 /* PLAYER */
+
 #player {
     width: 50px;
     height: 50px;
-    position: absolute;
-    bottom: 50px;
-    left: 100px;
+
     background: green;
-    border-radius: 8px;
-    transition: transform 0.1s;
-}
 
-/* ANIMAÇÃO */
-.running {
-    transform: scale(1.1);
-}
-
-/* OBJETOS */
-.item, .enemy {
     position: absolute;
+
+    left: 100px;
     bottom: 50px;
+
+    border-radius: 10px;
 }
 
-.item {
-    width: 35px;
-    height: 35px;
-    background: yellow;
-}
+/* OBSTÁCULOS */
 
-.enemy {
+.obstacle {
     width: 40px;
     height: 40px;
+
     background: red;
+
+    position: absolute;
+    bottom: 50px;
 }
 
-/* HUD */
-#hud {
-    margin-bottom: 10px;
-    font-size: 18px;
+/* ITEM */
+
+.item {
+    width: 30px;
+    height: 30px;
+
+    background: yellow;
+
+    position: absolute;
+    bottom: 120px;
+
+    border-radius: 50%;
 }
 
 /* RESPONSIVO */
-@media (max-width: 600px) {
+
+@media (max-width: 700px) {
+
     #game {
         height: 250px;
     }
@@ -97,4 +133,5 @@ body {
         width: 40px;
         height: 40px;
     }
+
 }
