@@ -1,132 +1,176 @@
-// PERGUNTAS
-const questions = [
-    {
-        q: "O que é sustentabilidade?",
-        options: [
-            "Cuidar do meio ambiente",
-            "Poluir mais",
-            "Gastar recursos sem pensar"
-        ],
-        correct: 0
-    },
-    {
-        q: "Qual é energia limpa?",
-        options: [
-            "Carvão",
-            "Solar",
-            "Petróleo"
-        ],
-        correct: 1
-    },
-    {
-        q: "O que ajuda o planeta?",
-        options: [
-            "Desmatamento",
-            "Reciclagem",
-            "Poluição"
-        ],
-        correct: 1
+  velocidadeY += gravidade;
+  posicao.y += velocidadeY;
+  noChao = false;
+
+  plataformasDaFase.forEach((plataforma) => {
+    const jogador = { x: posicao.x, y: posicao.y, w: larguraPersonagem, h: alturaPersonagem };
+    const cruzouTopo = yAnterior + alturaPersonagem <= plataforma.y;
+
+    if (colidiu(jogador, plataforma) && velocidadeY >= 0 && cruzouTopo) {
+      posicao.y = plataforma.y - alturaPersonagem;
+      velocidadeY = 0;
+      noChao = true;
     }
-];
+  });
 
-let current = 0;
-let score = 0;
+  if (posicao.y > alturaMundo) {
+    posicao = { x: 30, y: plataformasDaFase[0].y - alturaPersonagem };
+    velocidadeY = 0;
+  }
 
-// carregar pergunta
-function loadQuestion() {
-    let q = questions[current];
+  verificarSementes();
+  verificarBandeira();
+  atualizarPersonagem();
+  requestAnimationFrame(aplicarMovimento);
+}
 
-    document.getElementById("question").innerText = q.q;
+function verificarSementes() {
+  const jogador = { x: posicao.x, y: posicao.y, w: larguraPersonagem, h: alturaPersonagem };
 
-    let buttons = document.querySelectorAll("#answers button");
+  sementesDaFase.forEach((semente) => {
+    if (!semente.coletada && colidiu(jogador, semente)) {
+      semente.coletada = true;
+      semente.elemento.remove();
+      sementesColetadas += 1;
+      pontos += 10;
+      sementesTexto.textContent = sementesColetadas;
+      pontosTexto.textContent = pontos;
+    }
+  });
+}
 
-    buttons.forEach((btn, i) => {
-        btn.innerText = q.options[i];
+function verificarBandeira() {
+  const jogador = { x: posicao.x, y: posicao.y, w: larguraPersonagem, h: alturaPersonagem };
+  const alvo = {
+    x: bandeira.offsetLeft,
+    y: bandeira.offsetTop,
+    w: 52,
+    h: 96
+  };
+
+  if (colidiu(jogador, alvo)) {
+    travado = true;
+    abrirPergunta();
+  }
+}
+
+function abrirPergunta() {
+  const fase = fases[faseIndice];
+  etiquetaPergunta.textContent = `Desafio da ${faseIndice + 1}ª fase`;
+  textoPergunta.textContent = fase.pergunta;
+  retornoPergunta.textContent = "";
+  botaoContinuar.classList.add("oculto");
+  opcoesPergunta.innerHTML = "";
+
+  fase.opcoes.forEach((opcao, indice) => {
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.textContent = opcao;
+    botao.addEventListener("click", () => responder(indice));
+    opcoesPergunta.appendChild(botao);
+  });
+
+  modalPergunta.showModal();
+}
+
+function responder(indice) {
+  const fase = fases[faseIndice];
+  const acertou = indice === fase.correta;
+
+  retornoPergunta.textContent = acertou ? `Correto! ${fase.explicacao}` : `Tente de novo. Dica: ${fase.explicacao}`;
+
+  if (acertou) {
+    pontos += 30;
+    pontosTexto.textContent = pontos;
+    botaoContinuar.classList.remove("oculto");
+    Array.from(opcoesPergunta.children).forEach((botao) => {
+      botao.disabled = true;
     });
+  }
 }
 
-// responder
-function answer(index) {
-    let q = questions[current];
+function proximaFase() {
+  modalPergunta.close();
 
-    if (index === q.correct) {
-        score++;
-        moveCat();
-    }
+  if (faseIndice < fases.length - 1) {
+    faseIndice += 1;
+    desenharFase();
+    return;
+  }
 
-    current++;
-
-    if (current < questions.length) {
-        loadQuestion();
-    } else {
-        endGame();
-    }
-
-    document.getElementById("score").innerText = "Acertos: " + score;
+  tituloFase.textContent = "Missão concluída";
+  descricaoFase.textContent = "Você mostrou que produção forte combina com cuidado ambiental. Reinicie para jogar novamente.";
+  travado = true;
 }
 
-// mover gatinho
-function moveCat() {
-    let cat = document.getElementById("cat");
-
-    let position = score * 100; // desce
-
-    cat.style.top = position + "px";
+function pular() {
+  if (noChao && !travado) {
+    velocidadeY = impulsoPulo;
+    noChao = false;
+  }
 }
 
-// final
-function endGame() {
-    document.getElementById("question").innerText = "Fim! 🌍";
-
-    if (score === questions.length) {
-        document.getElementById("question").innerText =
-            "Parabéns! Você salvou o planeta 🌈";
-    }
+function reiniciarJogo() {
+  faseIndice = 0;
+  pontos = 0;
+  pontosTexto.textContent = pontos;
+  desenharFase();
 }
 
-// iniciar
-loadQuestion();
-const questions = [
-    {
-        question: "Qual atitude ajuda o meio ambiente?",
-        options: ["Jogar lixo no rio", "Reciclar", "Poluir"],
-        answer: "Reciclar"
-    },
-    {
-        question: "O que é sustentável?",
-        options: ["Desmatar", "Preservar natureza", "Poluir"],
-        answer: "Preservar natureza"
-    }
-];
+function ativarBotaoMovimento(botao, direcao) {
+  botao.addEventListener("pointerdown", () => {
+    teclas[direcao] = true;
+    mundo.focus();
+  });
 
-function askQuestion(object, index) {
+  botao.addEventListener("pointerup", () => {
+    teclas[direcao] = false;
+  });
 
-    const q = questions[Math.floor(Math.random() * questions.length)];
-
-    let userAnswer = prompt(
-        q.question + "\n\n" +
-        q.options.map((opt, i) => `${i + 1} - ${opt}`).join("\n")
-    );
-
-    let chosen = q.options[userAnswer - 1];
-
-    if (chosen === q.answer) {
-
-        alert("✅ Acertou! Você avançou!");
-
-        score += 20;
-        scoreText.innerText = score;
-
-    } else {
-
-        alert("❌ Errou! Tente melhorar suas escolhas sustentáveis.");
-
-    }
-
-    object.element.remove();
-    objects.splice(index, 1);
-
-    gameRunning = true;
-    gameLoop();
-    spawnLoop();
+  botao.addEventListener("pointerleave", () => {
+    teclas[direcao] = false;
+  });
 }
+
+document.addEventListener("keydown", (evento) => {
+  if (evento.key === "ArrowLeft" || evento.key.toLowerCase() === "a") {
+    teclas.esquerda = true;
+  }
+
+  if (evento.key === "ArrowRight" || evento.key.toLowerCase() === "d") {
+    teclas.direita = true;
+  }
+
+  if (evento.key === "ArrowUp" || evento.key === " ") {
+    evento.preventDefault();
+    pular();
+  }
+});
+
+document.addEventListener("keyup", (evento) => {
+  if (evento.key === "ArrowLeft" || evento.key.toLowerCase() === "a") {
+    teclas.esquerda = false;
+  }
+
+  if (evento.key === "ArrowRight" || evento.key.toLowerCase() === "d") {
+    teclas.direita = false;
+  }
+});
+
+document.getElementById("botaoPular").addEventListener("click", pular);
+document.getElementById("botaoReiniciar").addEventListener("click", reiniciarJogo);
+document.getElementById("botaoTema").addEventListener("click", () => {
+  document.body.classList.toggle("noite");
+});
+document.getElementById("botaoFonte").addEventListener("click", () => {
+  document.body.classList.toggle("fonte-grande");
+});
+botaoContinuar.addEventListener("click", proximaFase);
+
+ativarBotaoMovimento(document.getElementById("botaoEsquerda"), "esquerda");
+ativarBotaoMovimento(document.getElementById("botaoDireita"), "direita");
+
+window.addEventListener("resize", desenharFase);
+
+desenharFase();
+aplicarMovimento();
