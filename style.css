@@ -98,3 +98,342 @@ h1 {
 .acoes button {
   padding: 0 14px;
 }
+
+main {
+  width: min(1120px, calc(100% - 24px));
+  margin: 18px auto 32px;
+}
+
+.painel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 16px;
+  background: var(--painel);
+  border: 4px solid var(--borda);
+  border-radius: 8px;
+  box-shadow: 0 8px 0 var(--sombra);
+}
+
+.painel h2 {
+  margin-bottom: 6px;
+  font-size: 1.35rem;
+}
+
+.painel p {
+  margin-bottom: 0;
+  line-height: 1.45;
+}
+
+.placar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(76px, 1fr));
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.placar li {
+  display: grid;
+  gap: 3px;
+  min-width: 76px;
+  padding: 10px;
+  text-align: center;
+  background: #ffffff;
+  border: 3px solid var(--borda);
+  border-radius: 8px;
+}
+
+.placar span {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.placar strong {
+  font-size: 1.35rem;
+}
+
+.jogo {
+  padding: 0;
+}
+
+.mundo {
+  position: relative;
+  overflow: hidden;
+  height: min(62vw, 520px);
+  min-height: 360px;
+  border: 5px solid var(--borda);
+  border-radius: 8px;
+  outline: none;
+  background:
+    linear-gradient(var(--ceu), var(--ceu-profundo) 68%, var(--grama) 69%, var(--grama) 76%, var(--solo) 77%);
+  box-shadow: 0 10px 0 var(--sombra);
+}
+
+.sol {
+  position: absolute;
+  top: 30px;
+  right: 56px;
+  width: 74px;
+  height: 74px;
+  border: 4px solid var(--borda);
+  border-radius: 50%;
+  background: #ffd45a;
+}
+
+body.noite .sol {
+  background: #f2f4ff;
+}
+
+.nuvem {
+  position: absolute;
+  width: 112px;
+  height: 36px;
+  border: 3px solid var(--borda);
+  border-radius: 30px;
+  background: #ffffff;
+}
+
+.nuvem::before,
+.nuvem::after {
+  position: absolute;
+  content: "";
+  bottom: 12px;
+  border: 3px solid var(--borda);
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.nuvem::before {
+  left: 16px;
+  width: 38px;
+  height: 38px;
+}
+
+.nuvem::after {
+  right: 18px;
+  width: 48px;
+  height: 48px;
+}
+
+.nuvem-um {
+  top: 58px;
+  left: 70px;
+}
+
+.nuvem-dois {
+  top: 118px;
+  right: 180px;
+  transform: scale(0.82);
+}
+
+.personagem {
+  position: absolute;
+  z-index: 5;
+  width: 42px;
+  height: 52px;
+  border: 4px solid var(--borda);
+  border-radius: 8px 8px 4px 4px;
+  background:
+    linear-gradient(#ffe3b0 0 34%, #3d8b47 35% 68%, #24406e 69%);
+}
+
+.personagem::before {
+  position: absolute;
+  content: "";
+  left: 7px;
+  top: -17px;
+  width: 30px;
+  height: 14px;
+  border: 3px solid var(--borda);
+  border-radius: 8px 8px 2px 2px;
+  background: #e33f35;
+}
+
+.personagem::after {
+  position: absolute;
+  content: "";
+  right: 8px;
+  top: 16px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--borda);
+}
+
+.plataforma,
+.semente,
+.bandeira {
+  position: absolute;
+}
+
+.plataforma {
+  height: 26px;
+  border: 4px solid var(--borda);
+  border-radius: 8px;
+  background:
+    linear-gradient(#48bf6b 0 45%, #2c8f4a 46% 100%);
+}
+
+.semente {
+  z-index: 3;
+  width: 26px;
+  height: 34px;
+  border: 3px solid var(--borda);
+  border-radius: 50% 50% 44% 44%;
+  background: var(--milho);
+  animation: flutuar 1.4s ease-in-out infinite;
+}
+
+.semente::after {
+  position: absolute;
+  content: "";
+  right: -8px;
+  top: 6px;
+  width: 14px;
+  height: 10px;
+  border: 3px solid var(--borda);
+  border-left: 0;
+  border-radius: 0 12px 12px 0;
+  background: #53b96d;
+}
+
+.bandeira {
+  z-index: 4;
+  width: 52px;
+  height: 96px;
+  border-left: 6px solid var(--borda);
+}
+
+.bandeira::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 6px;
+  width: 46px;
+  height: 32px;
+  border: 4px solid var(--borda);
+  background: var(--tomate);
+}
+
+.bandeira::after {
+  position: absolute;
+  content: "";
+  left: -18px;
+  bottom: -4px;
+  width: 38px;
+  height: 10px;
+  border: 4px solid var(--borda);
+  border-radius: 8px 8px 0 0;
+  background: #9f7145;
+}
+
+.controles {
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.controles button {
+  width: 96px;
+}
+
+.instrucoes {
+  padding: 16px;
+  background: #ffffff;
+  border-left: 6px solid var(--grama);
+  border-radius: 8px;
+}
+
+.instrucoes p {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.modal {
+  width: min(560px, calc(100% - 28px));
+  border: 4px solid var(--borda);
+  border-radius: 8px;
+  background: var(--painel);
+  box-shadow: 0 12px 0 var(--sombra);
+}
+
+.modal::backdrop {
+  background: rgba(8, 18, 12, 0.58);
+}
+
+.opcoes {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.opcoes button {
+  padding: 12px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.retorno {
+  min-height: 28px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.oculto {
+  display: none;
+}
+
+@keyframes flutuar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@media (max-width: 760px) {
+  .topo,
+  .painel {
+    grid-template-columns: 1fr;
+  }
+
+  .topo {
+    display: grid;
+  }
+
+  .acoes button {
+    flex: 1 1 120px;
+  }
+
+  .painel {
+    align-items: stretch;
+  }
+
+  .placar {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .mundo {
+    min-height: 390px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    width: min(100% - 12px, 1120px);
+  }
+
+  .placar {
+    grid-template-columns: 1fr;
+  }
+
+  .controles button {
+    flex: 1 1 86px;
+  }
+}
