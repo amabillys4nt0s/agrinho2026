@@ -79,6 +79,7 @@ button:active {
 
 h1,
 h2,
+h3,
 p {
   margin-top: 0;
 }
@@ -156,10 +157,6 @@ main {
   font-size: 1.35rem;
 }
 
-.jogo {
-  padding: 0;
-}
-
 .mundo {
   position: relative;
   overflow: hidden;
@@ -233,35 +230,46 @@ body.noite .sol {
 .personagem {
   position: absolute;
   z-index: 5;
-  width: 42px;
-  height: 52px;
+  width: 46px;
+  height: 46px;
   border: 4px solid var(--borda);
-  border-radius: 8px 8px 4px 4px;
-  background:
-    linear-gradient(#ffe3b0 0 34%, #3d8b47 35% 68%, #24406e 69%);
+  border-radius: 12px;
+  background: #fff7f7;
+  box-shadow:
+    -10px -8px 0 -2px #fff7f7,
+    -13px -11px 0 -2px var(--borda),
+    10px -8px 0 -2px #fff7f7,
+    13px -11px 0 -2px var(--borda),
+    0 18px 0 -2px #f06a88,
+    0 22px 0 -2px var(--borda);
 }
 
 .personagem::before {
   position: absolute;
   content: "";
-  left: 7px;
-  top: -17px;
-  width: 30px;
-  height: 14px;
+  right: -8px;
+  top: -8px;
+  width: 20px;
+  height: 16px;
   border: 3px solid var(--borda);
-  border-radius: 8px 8px 2px 2px;
-  background: #e33f35;
+  border-radius: 8px 8px 8px 2px;
+  background: #e84f74;
+  box-shadow: -11px 5px 0 -5px #e84f74;
 }
 
 .personagem::after {
   position: absolute;
   content: "";
-  right: 8px;
-  top: 16px;
+  left: 9px;
+  top: 17px;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
   background: var(--borda);
+  box-shadow:
+    20px 0 0 var(--borda),
+    10px 8px 0 #f0b0b0,
+    -11px 5px 0 #f0b0b0,
+    31px 5px 0 #f0b0b0;
 }
 
 .plataforma,
@@ -352,6 +360,74 @@ body.noite .sol {
   line-height: 1.5;
 }
 
+.revista {
+  margin-top: 22px;
+  padding: clamp(18px, 4vw, 34px);
+  border: 4px solid var(--borda);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(46, 159, 85, 0.12), rgba(245, 197, 66, 0.16)),
+    #ffffff;
+  box-shadow: 0 10px 0 var(--sombra);
+}
+
+.revista-cabecalho {
+  max-width: 760px;
+  margin-bottom: 18px;
+}
+
+.revista-cabecalho h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+}
+
+.revista-cabecalho p {
+  line-height: 1.55;
+}
+
+.materias {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 14px;
+}
+
+.materia {
+  padding: 16px;
+  border: 3px solid var(--borda);
+  border-radius: 8px;
+  background: #fffdf6;
+}
+
+.materia.destaque {
+  grid-row: span 2;
+  background:
+    linear-gradient(rgba(255, 248, 232, 0.78), rgba(255, 248, 232, 0.78)),
+    repeating-linear-gradient(135deg, #f5c542 0 12px, #ffffff 12px 24px);
+}
+
+.editoria {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  border: 2px solid var(--borda);
+  border-radius: 6px;
+  background: var(--grama);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.materia h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.materia p {
+  margin-bottom: 0;
+  line-height: 1.55;
+}
+
 .modal {
   width: min(560px, calc(100% - 28px));
   border: 4px solid var(--borda);
@@ -421,6 +497,14 @@ body.noite .sol {
 
   .mundo {
     min-height: 390px;
+  }
+
+  .materias {
+    grid-template-columns: 1fr;
+  }
+
+  .materia.destaque {
+    grid-row: auto;
   }
 }
 
